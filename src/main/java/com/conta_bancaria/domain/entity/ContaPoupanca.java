@@ -14,9 +14,9 @@ import lombok.experimental.SuperBuilder;
 @EqualsAndHashCode(callSuper = true)
 @SuperBuilder
 @NoArgsConstructor
-
 public class ContaPoupanca extends Conta {
 
-    @Column(precision = 5)
+    @Column(precision = 5, scale = 2) // Ajuste na precisão
     private int rendimento;
 }
+

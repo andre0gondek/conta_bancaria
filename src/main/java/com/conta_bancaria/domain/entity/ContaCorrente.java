@@ -1,5 +1,4 @@
 package com.conta_bancaria.domain.entity;
-
 import jakarta.persistence.Column;
 
 import jakarta.persistence.DiscriminatorValue;
@@ -19,9 +18,10 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class ContaCorrente extends Conta {
 
-    @Column(precision = 4)
+    @Column(precision = 10, scale = 2) // Ajuste na precisão
     private BigDecimal limite;
 
-    @Column(precision = 5)
+    @Column(precision = 10, scale = 2) // Ajuste na precisão
     private BigDecimal taxa;
 }
+

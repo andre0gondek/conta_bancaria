@@ -2,7 +2,6 @@ package com.conta_bancaria.domain.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,10 +16,11 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @Table(name = "clientes",
-uniqueConstraints ={
-           @UniqueConstraint(name = "uk_cliente_cpf", columnNames = "cpf")
-       } )
+        uniqueConstraints = {
+                @UniqueConstraint(name = "uk_cliente_cpf", columnNames = "cpf")
+        })
 public class Cliente {
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
@@ -38,3 +38,4 @@ public class Cliente {
     @Column(nullable = false)
     private Boolean ativo;
 }
+
