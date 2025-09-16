@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 public class ClienteController {
-    @Autowired
+  /*  @Autowired
     ClienteService clienteService;
 
     @GetMapping
@@ -35,5 +35,5 @@ public class ClienteController {
     @DeleteMapping("/{id}")
     public void deleteCliente(@PathVariable String id){
         clienteService.deletarCliente(id);
-    }
+    }*/
 }
