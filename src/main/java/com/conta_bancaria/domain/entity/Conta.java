@@ -39,5 +39,6 @@ public abstract class Conta {
 
     @Column(name = "tipo_conta", insertable = false, updatable = false)
     private String tipoConta; // Necessário para a constraint única
+
 }
 
