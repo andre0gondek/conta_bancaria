@@ -31,7 +31,7 @@ public abstract class Conta {
     private BigDecimal saldo;
 
     @Column(nullable = false)
-    private Boolean ativo;
+    private Boolean ativa;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_id", foreignKey = @ForeignKey(name = "fk_conta_cliente"))
