@@ -18,5 +18,10 @@ public class ContaPoupanca extends Conta {
 
     @Column(precision = 5, scale = 2) // Ajuste na precisão
     private int rendimento;
+
+    @Override
+    public String getTipo() {
+        return "POUPANCA";
+    }
 }
 

@@ -23,5 +23,10 @@ public class ContaCorrente extends Conta {
 
     @Column(precision = 10, scale = 2) // Ajuste na precisão
     private BigDecimal taxa;
+
+    @Override
+    public String getTipo() {
+        return "CORRENTE";
+    }
 }
 

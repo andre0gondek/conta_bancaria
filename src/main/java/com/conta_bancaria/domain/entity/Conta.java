@@ -31,7 +31,7 @@ public abstract class Conta {
     private BigDecimal saldo;
 
     @Column(nullable = false)
-    private Boolean ativa;
+    private boolean ativa;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_id", foreignKey = @ForeignKey(name = "fk_conta_cliente"))
@@ -40,5 +40,6 @@ public abstract class Conta {
     @Column(name = "tipo_conta", insertable = false, updatable = false)
     private String tipoConta; // Necessário para a constraint única
 
+    public abstract String getTipo();
 }
 

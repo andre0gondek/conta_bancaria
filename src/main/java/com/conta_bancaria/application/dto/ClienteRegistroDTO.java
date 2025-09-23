@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public record ClienteRegistroDTO(
     String nome,
     String cpf,
-    ContaResumoDTO contaDTO
+    ContaResumoDTO contas
 ) {
     public Cliente toEntity() {
         return Cliente.builder()
