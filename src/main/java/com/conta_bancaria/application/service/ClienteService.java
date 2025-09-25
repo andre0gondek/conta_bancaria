@@ -51,14 +51,6 @@ public class ClienteService {
         return ClienteResponseDTO.fromEntity(cliente);
     }
 
-   /*
-   Minha versão:
-   public List<ClienteResponseDTO> buscarClientePorCpf(String cpf) {
-        return clienteRepository.findByCpfAndAtivoTrue(cpf).stream()
-                .map(ClienteResponseDTO::fromEntity)
-                .toList();
-    }*/
-
     public ClienteResponseDTO atualizarCliente(String cpf, ClienteAtualizadoDTO dto) {
         var cliente = clienteRepository.findByCpfAndAtivoTrue(cpf).orElseThrow(
                 () -> new RuntimeException("Cliente não encontrado")
