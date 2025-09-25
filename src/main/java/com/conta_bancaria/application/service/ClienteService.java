@@ -1,5 +1,6 @@
 package com.conta_bancaria.application.service;
 
+import com.conta_bancaria.application.dto.ClienteAtualizadoDTO;
 import com.conta_bancaria.application.dto.ClienteRegistroDTO;
 import com.conta_bancaria.application.dto.ClienteResponseDTO;
 import com.conta_bancaria.domain.repository.ClienteRepository;
@@ -58,30 +59,25 @@ public class ClienteService {
                 .toList();
     }*/
 
-    public void atualizarCliente(String cpf, ClienteRegistroDTO dto) {
-        var cliente = clienteRepository.findByCpfAndAtivoTrue(cpf)
-                .orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado"));
-        var contas = cliente.getContas();
-        var novaConta = dto.contas().toEntity(cliente);
-
-        boolean hasConta = contas.stream().anyMatch(
-                conta -> conta.getClass().equals(novaConta.getClass()) && conta.isAtiva()
+    public ClienteResponseDTO atualizarCliente(String cpf, ClienteAtualizadoDTO dto) {
+        var cliente = clienteRepository.findByCpfAndAtivoTrue(cpf).orElseThrow(
+                () -> new RuntimeException("Cliente não encontrado")
         );
-
-        if (hasConta)
-            throw new IllegalArgumentException("Cliente já possui uma conta do tipo " + novaConta.getClass().getSimpleName());
-
-        cliente.getContas().add(novaConta);
-
 
         cliente.setNome(dto.nome());
         cliente.setCpf(dto.cpf());
-        cliente.setContas(dto.toEntity().getContas());
 
-        ClienteResponseDTO.fromEntity(clienteRepository.save(cliente));
+        return ClienteResponseDTO.fromEntity(clienteRepository.save(cliente));
     }
 
     public void deletarCliente(String cpf) {
-        clienteRepository.deleteById(cpf);
+        var cliente = clienteRepository.findByCpfAndAtivoTrue(cpf).orElseThrow(
+                () -> new RuntimeException("Cliente não encontrado")
+        );
+        cliente.setAtivo(false);
+        cliente.getContas().forEach(
+                conta -> conta.setAtiva(false)
+        );
+        clienteRepository.save(cliente);
     }
 }
