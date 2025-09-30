@@ -8,6 +8,8 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import java.math.BigDecimal;
+
 @Entity
 @DiscriminatorValue("POUPANCA")
 @Data
@@ -17,11 +19,13 @@ import lombok.experimental.SuperBuilder;
 public class ContaPoupanca extends Conta {
 
     @Column(precision = 5, scale = 2) // Ajuste na precisão
-    private int rendimento;
+    private BigDecimal rendimento;
 
     @Override
     public String getTipo() {
         return "POUPANCA";
     }
+
+
 }
 

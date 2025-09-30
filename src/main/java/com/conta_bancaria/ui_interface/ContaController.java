@@ -1,12 +1,14 @@
 package com.conta_bancaria.ui_interface;
 
+import com.conta_bancaria.application.dto.ContaAtualizadaDTO;
 import com.conta_bancaria.application.dto.ContaResumoDTO;
+import com.conta_bancaria.application.dto.SaqueDepositoDTO;
 import com.conta_bancaria.application.service.ContaService;
+import com.conta_bancaria.domain.entity.Conta;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.validator.internal.engine.groups.ValidationOrder;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,13 +20,30 @@ public class ContaController {
     private final ContaService service;
 
     @GetMapping
-    public ResponseEntity<List<ContaResumoDTO>> listarContas(){
+    public ResponseEntity<List<ContaResumoDTO>> listarContas() {
         return ResponseEntity.ok(service.exibirContas());
     }
 
-    @GetMapping
-    public  ResponseEntity<ContaResumoDTO> buscarContaPorNumero(String num){
+    @GetMapping("/{numero}")
+    public ResponseEntity<ContaResumoDTO> buscarContaPorNumero(@PathVariable String num) {
         return ResponseEntity.ok(service.exibirContasPorNumero(num));
     }
+
+    @PutMapping("/{numero}")
+    public ResponseEntity<ContaResumoDTO> atualizarConta(@PathVariable String numero, @RequestBody ContaAtualizadaDTO dto) {
+        return ResponseEntity.ok(service.atualizarConta(numero, dto));
+    }
+
+    @DeleteMapping("/{numero}")
+    public ResponseEntity<Void> deletarConta(@PathVariable String numero) {
+        service.deletarConta(numero);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{numero}/sacar")
+    public ResponseEntity<ContaResumoDTO> sacar(@PathVariable String numero, @RequestBody SaqueDepositoDTO dto){
+        return ResponseEntity.ok(service.sacar(numero, dto));
+    }
+
 
 }

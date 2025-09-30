@@ -28,7 +28,7 @@ public abstract class Conta {
     private String numero;
 
     @Column(nullable = false, precision = 10, scale = 2) // Ajuste na precisão para valores monetários
-    private BigDecimal saldo;
+    protected BigDecimal saldo;
 
     @Column(nullable = false)
     private boolean ativa;
@@ -41,5 +41,15 @@ public abstract class Conta {
     private String tipoConta; // Necessário para a constraint única
 
     public abstract String getTipo();
+
+    public void sacar(BigDecimal valor) {
+        if (valor.compareTo(BigDecimal.ZERO) <= 0){
+            throw new IllegalArgumentException("O valor não pode ser negativo");
+        }
+        if (valor.compareTo(saldo) > 0) {
+            throw new IllegalArgumentException("Saldo insuficiente para saque.");
+        }
+        saldo = saldo.subtract(valor);
+    }
 }
 
