@@ -3,6 +3,7 @@ package com.conta_bancaria.application.service;
 import com.conta_bancaria.application.dto.ContaAtualizadaDTO;
 import com.conta_bancaria.application.dto.ContaResumoDTO;
 import com.conta_bancaria.application.dto.SaqueDepositoDTO;
+import com.conta_bancaria.application.dto.TransferenciaDTO;
 import com.conta_bancaria.domain.entity.Conta;
 import com.conta_bancaria.domain.entity.ContaCorrente;
 import com.conta_bancaria.domain.entity.ContaPoupanca;
@@ -11,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -21,6 +21,11 @@ public class ContaService {
 
     private final ContaRepository repository;
 
+    private Conta buscarConta(String numero) {
+        return repository.findByNumAndAtivoTrue(numero)
+                .orElseThrow(() -> new RuntimeException("Conta não encontrada"));
+    }
+
     @Transactional(readOnly = true)
     public List<ContaResumoDTO> exibirContas() {
         return repository.findAtiva().stream()
@@ -29,17 +34,14 @@ public class ContaService {
     }
 
     @Transactional(readOnly = true)
-    public ContaResumoDTO exibirContasPorNumero(String num) {
-        var conta = repository.findByNumAndAtivoTrue(num).orElseThrow(
-                () -> new RuntimeException("Conta não encontrada")
-        );
-        return ContaResumoDTO.fromEntity(conta);
+    public ContaResumoDTO exibirContasPorNumero(String numero) {
+        Conta c = buscarConta(numero);
+        return ContaResumoDTO.fromEntity(c);
     }
 
 
     public ContaResumoDTO atualizarConta(String numero, ContaAtualizadaDTO dto) {
-        Conta c = repository.findByNumAndAtivoTrue(numero)
-                .orElseThrow(() -> new RuntimeException("Conta não encontrada"));
+        Conta c = buscarConta(numero);
 
         if (c instanceof ContaPoupanca contaPoupanca) {
             contaPoupanca.setRendimento(dto.rendimento());
@@ -53,17 +55,31 @@ public class ContaService {
     }
 
     public void deletarConta(String numero) {
-        Conta c = repository.findByNumAndAtivoTrue(numero)
-                .orElseThrow(() -> new RuntimeException("Conta não encontrada"));
+        Conta c = buscarConta(numero);
         c.setAtiva(false);
         repository.save(c);
     }
 
     public ContaResumoDTO sacar(String numero, SaqueDepositoDTO dto) {
-        Conta c = repository.findByNumAndAtivoTrue(numero)
-                .orElseThrow(() -> new RuntimeException("Conta não encontrada"));
+        Conta c = buscarConta(numero);
 
         c.sacar(dto.valor());
         return ContaResumoDTO.fromEntity(repository.save(c));
+    }
+
+    public ContaResumoDTO depositar(String numero, SaqueDepositoDTO dto) {
+        Conta c = buscarConta(numero);
+        c.depositar(dto.valor());
+        return ContaResumoDTO.fromEntity(repository.save(c));
+    }
+
+    public ContaResumoDTO transferir(String numero, TransferenciaDTO dto) {
+        Conta contaOrigem = buscarConta(numero);
+        Conta contaDestino = buscarConta(numero);
+
+        contaOrigem.sacar(dto.valor());
+        contaDestino.depositar(dto.valor());
+
+        return ContaResumoDTO.fromEntity(repository.save(contaOrigem));
     }
 }
