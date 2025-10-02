@@ -68,18 +68,19 @@ public class ContaService {
     }
 
     public ContaResumoDTO depositar(String numero, SaqueDepositoDTO dto) {
-        Conta c = buscarConta(numero);
-        c.depositar(dto.valor());
-        return ContaResumoDTO.fromEntity(repository.save(c));
+        Conta conta = buscarConta(numero);
+
+        conta.depositar(dto.valor());
+        return ContaResumoDTO.fromEntity(repository.save(conta));
     }
 
     public ContaResumoDTO transferir(String numero, TransferenciaDTO dto) {
         Conta contaOrigem = buscarConta(numero);
-        Conta contaDestino = buscarConta(numero);
+        Conta contaDestino = buscarConta(dto.contaDestino());
 
-        contaOrigem.sacar(dto.valor());
-        contaDestino.depositar(dto.valor());
+        contaOrigem.transferir(dto.valor(), contaDestino);
 
+        repository.save(contaDestino);
         return ContaResumoDTO.fromEntity(repository.save(contaOrigem));
     }
 }

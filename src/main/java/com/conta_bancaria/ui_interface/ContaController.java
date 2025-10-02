@@ -46,8 +46,9 @@ public class ContaController {
         return ResponseEntity.ok(service.sacar(numero, dto));
     }
 
-    @PostMapping("/{numero}/depositar")
-    public ResponseEntity<ContaResumoDTO> depositar(@PathVariable String numero, @RequestBody SaqueDepositoDTO dto) {
+    @PostMapping("/{numeroDaConta}/depositar")
+    public ResponseEntity<ContaResumoDTO> depositar(@PathVariable String numero,
+                                                    @RequestBody SaqueDepositoDTO dto) {
         return ResponseEntity.ok(service.depositar(numero, dto));
     }
 

@@ -27,7 +27,7 @@ public abstract class Conta {
     @Column(nullable = false, length = 20)
     private String numero;
 
-    @Column(nullable = false, precision = 10, scale = 2) // Ajuste na precisão para valores monetários
+    @Column(nullable = false, precision = 19, scale = 2) // Ajuste na precisão para valores monetários
     protected BigDecimal saldo;
 
     @Column(nullable = false)
@@ -54,15 +54,15 @@ public abstract class Conta {
 
     public void depositar(BigDecimal valor) {
         validarValorMaiorQueZero(valor);
+        saldo = saldo.add(valor);
     }
 
     public void transferir(BigDecimal valor, Conta contaDestino) {
         if (this.id.equals(contaDestino.getId())) {
-            throw new IllegalArgumentException("Não é possível transferir para a mesma conta");
+            throw new IllegalArgumentException("Não é possível transferir para a mesma conta.");
         }
 
         this.sacar(valor);
-
         contaDestino.depositar(valor);
     }
 
