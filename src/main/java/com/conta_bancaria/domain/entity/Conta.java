@@ -44,21 +44,30 @@ public abstract class Conta {
 
     public void sacar(BigDecimal valor) {
         validarValorMaiorQueZero(valor);
+
         if (valor.compareTo(saldo) > 0) {
             throw new IllegalArgumentException("Saldo insuficiente para saque.");
         }
+
         saldo = saldo.subtract(valor);
     }
 
     public void depositar(BigDecimal valor) {
         validarValorMaiorQueZero(valor);
-        /*if (valor.compareTo(BigDecimal.TEN) > 0) {
-            throw new IllegalArgumentException("O valor do saque deve ser maior ou igual a R$10,00");
-        }*/
     }
 
-    private static void validarValorMaiorQueZero(BigDecimal valor) {
-        if (valor.compareTo(BigDecimal.ZERO) <= 0){
+    public void transferir(BigDecimal valor, Conta contaDestino) {
+        if (this.id.equals(contaDestino.getId())) {
+            throw new IllegalArgumentException("Não é possível transferir para a mesma conta");
+        }
+
+        this.sacar(valor);
+
+        contaDestino.depositar(valor);
+    }
+
+    protected static void validarValorMaiorQueZero(BigDecimal valor) {
+        if (valor.compareTo(BigDecimal.ZERO) <= 0) {
             throw new IllegalArgumentException("O valor não pode ser negativo");
         }
     }

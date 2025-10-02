@@ -1,4 +1,5 @@
 package com.conta_bancaria.domain.entity;
+
 import jakarta.persistence.Column;
 
 import jakarta.persistence.DiscriminatorValue;
@@ -18,10 +19,10 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class ContaCorrente extends Conta {
 
-    @Column(precision = 10, scale = 2) // Ajuste na precisão
+    @Column(precision = 19, scale = 2) // Ajuste na precisão
     private BigDecimal limite;
 
-    @Column(precision = 10, scale = 2) // Ajuste na precisão
+    @Column(precision = 19, scale = 2) // Ajuste na precisão
     private BigDecimal taxa;
 
     @Override
@@ -31,15 +32,16 @@ public class ContaCorrente extends Conta {
 
     @Override
     public void sacar(BigDecimal valor) {
-        if (valor.compareTo(BigDecimal.ZERO) < 0){
-            throw new IllegalArgumentException("Valor inválido para saque.");
-        }
+        validarValorMaiorQueZero(valor);
+
         BigDecimal custoSaque = valor.multiply(taxa);
         BigDecimal total = valor.add(custoSaque);
-        if (saldo.add(limite).compareTo(total) < 0){
+
+        if (saldo.add(limite).compareTo(total) < 0) {
             throw new IllegalArgumentException("Limite insuficiente para saque.");
         }
-        setSaldo(getSaldo().subtract(total));
+
+        this.setSaldo(this.getSaldo().subtract(total));
     }
 }
 

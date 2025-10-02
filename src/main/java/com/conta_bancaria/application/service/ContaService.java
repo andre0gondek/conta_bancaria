@@ -22,13 +22,13 @@ public class ContaService {
     private final ContaRepository repository;
 
     private Conta buscarConta(String numero) {
-        return repository.findByNumAndAtivoTrue(numero)
+        return repository.findByNumeroAndAtivaTrue(numero)
                 .orElseThrow(() -> new RuntimeException("Conta não encontrada"));
     }
 
     @Transactional(readOnly = true)
     public List<ContaResumoDTO> exibirContas() {
-        return repository.findAtiva().stream()
+        return repository.findAllByAtivaTrue().stream()
                 .map(ContaResumoDTO::fromEntity)
                 .toList();
     }

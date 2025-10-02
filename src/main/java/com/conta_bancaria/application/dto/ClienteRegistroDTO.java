@@ -6,9 +6,9 @@ import com.conta_bancaria.domain.entity.Conta;
 import java.util.ArrayList;
 
 public record ClienteRegistroDTO(
-    String nome,
-    String cpf,
-    ContaResumoDTO contas
+        String nome,
+        String cpf,
+        ContaResumoDTO contas
 ) {
     public Cliente toEntity() {
         return Cliente.builder()

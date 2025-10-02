@@ -29,12 +29,12 @@ public class ClienteController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ClienteResponseDTO>> exibirCliente(){
+    public ResponseEntity<List<ClienteResponseDTO>> exibirCliente() {
         return ResponseEntity.ok(service.exibirClientesAtivos());
     }
 
     @GetMapping("/cpf/{cpf}")
-    public ResponseEntity<ClienteResponseDTO> buscarClientePorCpf(@PathVariable String cpf){
+    public ResponseEntity<ClienteResponseDTO> buscarClientePorCpf(@PathVariable String cpf) {
         return ResponseEntity.ok(service.buscarClientePorCpf(cpf));
     }
 
