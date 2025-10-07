@@ -6,6 +6,7 @@ import com.conta_bancaria.application.dto.SaqueDepositoDTO;
 import com.conta_bancaria.application.dto.TransferenciaDTO;
 import com.conta_bancaria.application.service.ContaService;
 import com.conta_bancaria.domain.entity.Conta;
+import jakarta.persistence.PostRemove;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.validator.internal.engine.groups.ValidationOrder;
 import org.springframework.http.ResponseEntity;
@@ -55,6 +56,11 @@ public class ContaController {
     @PostMapping("/{numero}/transferir")
     public ResponseEntity<ContaResumoDTO> transferir(@PathVariable String numero, @RequestBody TransferenciaDTO dto) {
         return ResponseEntity.ok(service.transferir(numero, dto));
+    }
+
+    @PostMapping("/{numero}/rendimento")
+    public ResponseEntity<ContaResumoDTO> rendimento(@PathVariable String numero){
+        return ResponseEntity.ok(service.aplicarRendimento(numero));
     }
 
 }

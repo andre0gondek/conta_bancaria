@@ -1,5 +1,6 @@
 package com.conta_bancaria.domain.entity;
 
+import com.conta_bancaria.domain.exception.SaldoInsuficienteException;
 import jakarta.persistence.Column;
 
 import jakarta.persistence.DiscriminatorValue;
@@ -32,13 +33,13 @@ public class ContaCorrente extends Conta {
 
     @Override
     public void sacar(BigDecimal valor) {
-        validarValorMaiorQueZero(valor);
+        validarValorMaiorQueZero(valor, "saque");
 
         BigDecimal custoSaque = valor.multiply(taxa);
         BigDecimal total = valor.add(custoSaque);
 
         if (saldo.add(limite).compareTo(total) < 0) {
-            throw new IllegalArgumentException("Limite insuficiente para saque.");
+            throw new SaldoInsuficienteException(valor, "saque");
         }
 
         this.setSaldo(this.getSaldo().subtract(total));

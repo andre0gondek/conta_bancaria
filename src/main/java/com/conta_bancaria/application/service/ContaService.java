@@ -7,6 +7,9 @@ import com.conta_bancaria.application.dto.TransferenciaDTO;
 import com.conta_bancaria.domain.entity.Conta;
 import com.conta_bancaria.domain.entity.ContaCorrente;
 import com.conta_bancaria.domain.entity.ContaPoupanca;
+import com.conta_bancaria.domain.exception.EntidadeNaoEncontradaException;
+import com.conta_bancaria.domain.exception.RendimentoInvalidoException;
+import com.conta_bancaria.domain.exception.TipoDeContaInvalidoException;
 import com.conta_bancaria.domain.repository.ContaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,7 +26,7 @@ public class ContaService {
 
     private Conta buscarConta(String numero) {
         return repository.findByNumeroAndAtivaTrue(numero)
-                .orElseThrow(() -> new RuntimeException("Conta não encontrada"));
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("conta"));
     }
 
     @Transactional(readOnly = true)
@@ -48,7 +51,7 @@ public class ContaService {
         } else if (c instanceof ContaCorrente contaCorrente) {
             contaCorrente.setLimite(dto.limite());
             contaCorrente.setTaxa(dto.taxa());
-        } else throw new RuntimeException("Tipo de conta inválido. Tente novamente.");
+        } else throw new TipoDeContaInvalidoException(c.getTipo());
         c.setSaldo(dto.saldo());
 
         return ContaResumoDTO.fromEntity(repository.save(c));
@@ -82,5 +85,14 @@ public class ContaService {
 
         repository.save(contaDestino);
         return ContaResumoDTO.fromEntity(repository.save(contaOrigem));
+    }
+
+    public ContaResumoDTO aplicarRendimento(String numero) {
+        Conta conta = buscarConta(numero);
+        if (conta instanceof ContaPoupanca poupanca){
+            poupanca.aplicarRendimento();
+            return ContaResumoDTO.fromEntity(repository.save(poupanca));
+        }
+        throw new RendimentoInvalidoException();
     }
 }

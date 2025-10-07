@@ -26,5 +26,9 @@ public class ContaPoupanca extends Conta {
         return "POUPANCA";
     }
 
+    public void aplicarRendimento() {
+        BigDecimal valorRendimento = getSaldo().multiply(rendimento);
+        setSaldo(getSaldo().add(valorRendimento));
+    }
 }
 

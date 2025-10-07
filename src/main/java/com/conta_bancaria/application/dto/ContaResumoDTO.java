@@ -4,6 +4,7 @@ import com.conta_bancaria.domain.entity.Cliente;
 import com.conta_bancaria.domain.entity.Conta;
 import com.conta_bancaria.domain.entity.ContaCorrente;
 import com.conta_bancaria.domain.entity.ContaPoupanca;
+import com.conta_bancaria.domain.exception.TipoDeContaInvalidoException;
 
 import java.math.BigDecimal;
 
@@ -32,7 +33,7 @@ public record ContaResumoDTO(
                     .ativa(true)
                     .build();
         }
-        return null;
+        throw new TipoDeContaInvalidoException(tipo);
     }
 
     public static ContaResumoDTO fromEntity(Conta conta) {
