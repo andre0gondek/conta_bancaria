@@ -3,6 +3,7 @@ package com.conta_bancaria.domain.entity;
 import com.conta_bancaria.domain.exception.EntidadeNaoEncontradaException;
 import com.conta_bancaria.domain.exception.SaldoInsuficienteException;
 import com.conta_bancaria.domain.exception.TransferirParaMesmaContaException;
+import com.conta_bancaria.domain.exception.ValorNegativoException;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -47,17 +48,23 @@ public abstract class Conta {
 
     public void sacar(BigDecimal valor) {
         validarValorMaiorQueZero(valor, "saque");
-
         if (valor.compareTo(saldo) > 0) {
-            throw new SaldoInsuficienteException(valor, "saque");
+            throw new SaldoInsuficienteException("saque");
         }
-
         saldo = saldo.subtract(valor);
     }
 
     public void depositar(BigDecimal valor) {
-        validarValorMaiorQueZero(valor, "deposito");
+        validarValorMaiorQueZero(valor, "depósito");
         saldo = saldo.add(valor);
+    }
+
+
+
+    protected static void validarValorMaiorQueZero(BigDecimal valor, String operacao) {
+        if(valor.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new ValorNegativoException(operacao);
+        }
     }
 
     public void transferir(BigDecimal valor, Conta contaDestino) {
@@ -68,11 +75,6 @@ public abstract class Conta {
         this.sacar(valor);
         contaDestino.depositar(valor);
     }
-
-    protected static void validarValorMaiorQueZero(BigDecimal valor, String operacao) {
-        if (valor.compareTo(BigDecimal.ZERO) <= 0) {
-            throw new EntidadeNaoEncontradaException(operacao);
-        }
-    }
 }
+
 

@@ -51,7 +51,7 @@ public class ContaService {
         } else if (c instanceof ContaCorrente contaCorrente) {
             contaCorrente.setLimite(dto.limite());
             contaCorrente.setTaxa(dto.taxa());
-        } else throw new TipoDeContaInvalidoException(c.getTipo());
+        } else throw new TipoDeContaInvalidoException("");
         c.setSaldo(dto.saldo());
 
         return ContaResumoDTO.fromEntity(repository.save(c));

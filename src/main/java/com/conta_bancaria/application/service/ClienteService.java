@@ -21,9 +21,10 @@ public class ClienteService {
     private final ClienteRepository clienteRepository;
 
     private Cliente buscarClientePorCpfEAtivoTrue(String cpf) {
-        return clienteRepository.findByCpfAndAtivoTrue(cpf).orElseThrow(
+        var cliente = clienteRepository.findByCpfAndAtivoTrue(cpf).orElseThrow(
                 () -> new EntidadeNaoEncontradaException("cliente")
         );
+        return cliente;
     }
 
     public ClienteResponseDTO registrarCliente(ClienteRegistroDTO dto) {

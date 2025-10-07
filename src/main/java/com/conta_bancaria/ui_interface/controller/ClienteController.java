@@ -1,12 +1,10 @@
-package com.conta_bancaria.ui_interface;
+package com.conta_bancaria.ui_interface.controller;
 
 import com.conta_bancaria.application.dto.ClienteAtualizadoDTO;
 import com.conta_bancaria.application.dto.ClienteRegistroDTO;
 import com.conta_bancaria.application.dto.ClienteResponseDTO;
 import com.conta_bancaria.application.service.ClienteService;
-import com.conta_bancaria.domain.repository.ClienteRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

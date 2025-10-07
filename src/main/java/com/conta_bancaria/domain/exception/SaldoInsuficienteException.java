@@ -3,7 +3,7 @@ package com.conta_bancaria.domain.exception;
 import java.math.BigDecimal;
 
 public class SaldoInsuficienteException extends RuntimeException {
-    public SaldoInsuficienteException(BigDecimal valor, String operacao) {
-        super("Saldo insuficiente para realizar a operação: " + operacao + "com o valor de R$" + valor);
+    public SaldoInsuficienteException(String operacao) {
+        super("Saldo insuficiente para realizar a operação: " + operacao + "com o valor de R$");
     }
 }

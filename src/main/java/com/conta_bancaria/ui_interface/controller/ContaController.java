@@ -1,14 +1,11 @@
-package com.conta_bancaria.ui_interface;
+package com.conta_bancaria.ui_interface.controller;
 
 import com.conta_bancaria.application.dto.ContaAtualizadaDTO;
 import com.conta_bancaria.application.dto.ContaResumoDTO;
 import com.conta_bancaria.application.dto.SaqueDepositoDTO;
 import com.conta_bancaria.application.dto.TransferenciaDTO;
 import com.conta_bancaria.application.service.ContaService;
-import com.conta_bancaria.domain.entity.Conta;
-import jakarta.persistence.PostRemove;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.validator.internal.engine.groups.ValidationOrder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
