@@ -19,7 +19,7 @@ public record ClienteRegistroDTO(
         @Pattern(regexp = "\\d{11}")
         String cpf,
 
-        @NotNull(message = "Deve haver pelo menos uma conta")
+        @NotNull(message = "Deve haver pelo menos uma conta.")
         @Valid
         ContaResumoDTO contas
 ) {
