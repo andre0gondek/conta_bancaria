@@ -4,6 +4,7 @@ import com.conta_bancaria.application.dto.ClienteAtualizadoDTO;
 import com.conta_bancaria.application.dto.ClienteRegistroDTO;
 import com.conta_bancaria.application.dto.ClienteResponseDTO;
 import com.conta_bancaria.application.service.ClienteService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -37,7 +38,8 @@ public class ClienteController {
     }
 
     @PutMapping("/cpf/{cpf}")
-    public ResponseEntity<ClienteResponseDTO> atualizarCliente(@PathVariable String cpf, @RequestBody ClienteAtualizadoDTO dto) {
+    public ResponseEntity<ClienteResponseDTO> atualizarCliente(@PathVariable String cpf,
+                                                               @Valid @RequestBody ClienteAtualizadoDTO dto) {
         ClienteResponseDTO clienteAtualizado = service.atualizarCliente(cpf, dto);
         return ResponseEntity.ok().build();
     }

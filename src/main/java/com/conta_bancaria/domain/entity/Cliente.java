@@ -28,7 +28,6 @@ public class Cliente {
     @Column(nullable = false, length = 120)
     private String nome;
 
-    @NotBlank(message = "O CPF não pode estar vazio.")
     @Column(nullable = false, length = 11)
     private String cpf;
 
