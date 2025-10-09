@@ -20,7 +20,7 @@ public class ClienteController {
     private final ClienteService service;
 
     @PostMapping
-    public ResponseEntity<ClienteResponseDTO> registrarCliente(@RequestBody ClienteRegistroDTO dto) {
+    public ResponseEntity<ClienteResponseDTO> registrarCliente(@Valid @RequestBody ClienteRegistroDTO dto) {
         ClienteResponseDTO createdCliente = service.registrarCliente(dto);
 
         return ResponseEntity.created(URI.create("/api/cliente/cpf/" +

@@ -6,16 +6,22 @@ import com.conta_bancaria.domain.entity.ContaCorrente;
 import com.conta_bancaria.domain.entity.ContaPoupanca;
 import com.conta_bancaria.domain.exception.TipoDeContaInvalidoException;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.PositiveOrZero;
 
 import java.math.BigDecimal;
 
 public record ContaResumoDTO(
-        @NotBlank
+        @NotBlank(message = "O número da conta é obrigatório")
         @Pattern(regexp = "\\d{5,20}", message = "Número da conta deve conter entre 5 e 20 dígitos")
         String numero,
 
+        @NotBlank(message = "O tipo da conta é obrigatório")
+        @Pattern(regexp = "CORRENTE|POUPANCA", message = "Tipo deve ser CORRENTE ou POUPANCA")
         String tipo,
+
+        @NotNull @PositiveOrZero(message = "O saldo não pode ser negativo")
         BigDecimal saldo
 ) {
 

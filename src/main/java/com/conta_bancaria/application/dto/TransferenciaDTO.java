@@ -8,11 +8,11 @@ import jakarta.validation.constraints.Positive;
 import java.math.BigDecimal;
 
 public record TransferenciaDTO(
-        @NotBlank
+        @NotBlank(message = "A conta de destino é obrigatória")
         @Pattern(regexp = "\\d{5,20}", message = "Número da conta destino inválido")
         String contaDestino,
 
-        @NotNull
+        @NotNull(message = "O valor é obrigatório")
         @Positive(message = "O valor deve ser maior que zero")
         BigDecimal valor
 ) {
