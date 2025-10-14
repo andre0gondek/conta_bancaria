@@ -16,7 +16,7 @@ public record ClienteRegistroDTO(
         String nome,
 
         @NotBlank(message = "O CPF não pode estar vazio.")
-        @Pattern(regexp = "\\d{11}")
+        @Pattern(regexp = "\\d{11}", message = "O CPF deve conter exatamente 11 dígitos numéricos")
         String cpf,
 
         @NotNull(message = "Deve haver pelo menos uma conta.")

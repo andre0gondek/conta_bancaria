@@ -25,8 +25,8 @@ public class ContaController {
     }
 
     @GetMapping("/{numero}")
-    public ResponseEntity<ContaResumoDTO> buscarContaPorNumero(@PathVariable String num) {
-        return ResponseEntity.ok(service.exibirContasPorNumero(num));
+    public ResponseEntity<ContaResumoDTO> buscarContaPorNumero(@PathVariable String numero) {
+        return ResponseEntity.ok(service.exibirContasPorNumero(numero));
     }
 
     @PutMapping("/{numero}")
@@ -47,7 +47,7 @@ public class ContaController {
         return ResponseEntity.ok(service.sacar(numero, dto));
     }
 
-    @PostMapping("/{numeroDaConta}/depositar")
+    @PostMapping("/{numero}/depositar")
     public ResponseEntity<ContaResumoDTO> depositar(@PathVariable String numero,
                                                     @Valid @RequestBody SaqueDepositoDTO dto) {
         return ResponseEntity.ok(service.depositar(numero, dto));
