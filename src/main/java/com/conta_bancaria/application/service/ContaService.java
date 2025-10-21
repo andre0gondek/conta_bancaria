@@ -95,6 +95,7 @@ public class ContaService {
         return ContaResumoDTO.fromEntity(repository.save(contaOrigem));
     }
 
+    @PreAuthorize("hasRole('GERENTE')")
     public ContaResumoDTO aplicarRendimento(String numero) {
         Conta conta = buscarConta(numero);
         if (conta instanceof ContaPoupanca poupanca){

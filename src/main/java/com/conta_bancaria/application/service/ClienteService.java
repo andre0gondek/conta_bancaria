@@ -9,6 +9,7 @@ import com.conta_bancaria.domain.exception.EntidadeNaoEncontradaException;
 import com.conta_bancaria.domain.repository.ClienteRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +21,7 @@ import java.util.List;
 public class ClienteService {
 
     private final ClienteRepository clienteRepository;
+    private final PasswordEncoder passwordEncoder;
 
     private Cliente buscarClientePorCpfEAtivoTrue(String cpf) {
         var cliente = clienteRepository.findByCpfAndAtivoTrue(cpf).orElseThrow(
@@ -46,6 +48,7 @@ public class ClienteService {
             throw new ContaMesmoTipoException();
 
         cliente.getContas().add(novaConta);
+        cliente.setSenha(passwordEncoder.encode(dto.senha()));
 
         return ClienteResponseDTO.fromEntity(clienteRepository.save(cliente));
     }

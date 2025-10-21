@@ -2,6 +2,7 @@ package com.conta_bancaria.application.dto;
 
 import com.conta_bancaria.domain.entity.Cliente;
 import com.conta_bancaria.domain.entity.Conta;
+import com.conta_bancaria.domain.enums.Role;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -21,7 +22,10 @@ public record ClienteRegistroDTO(
 
         @NotNull(message = "Deve haver pelo menos uma conta.")
         @Valid
-        ContaResumoDTO contas
+        ContaResumoDTO contas,
+
+        String email,
+        String senha
 ) {
     public Cliente toEntity() {
         return Cliente.builder()
@@ -29,6 +33,9 @@ public record ClienteRegistroDTO(
                 .nome(this.nome)
                 .cpf(this.cpf)
                 .contas(new ArrayList<Conta>())
+                .email(this.email)
+                .senha(this.senha)
+                .role(Role.CLIENTE)
                 .build();
     }
 }

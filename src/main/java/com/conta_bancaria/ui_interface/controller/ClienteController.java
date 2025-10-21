@@ -13,7 +13,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/cliente")
+@RequestMapping("/api/cliente")
 @RequiredArgsConstructor
 public class ClienteController {
 
