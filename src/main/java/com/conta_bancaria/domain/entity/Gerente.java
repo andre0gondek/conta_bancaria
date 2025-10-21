@@ -3,43 +3,17 @@ package com.conta_bancaria.domain.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import com.conta_bancaria.domain.enums.Role;
+import lombok.experimental.SuperBuilder;
 
-@Entity
-@Data
-@AllArgsConstructor
+@Getter
+@Setter
 @NoArgsConstructor
-@Builder
-public class Gerente {
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    protected String id;
+@AllArgsConstructor
+@SuperBuilder
+@Entity
+@Table(name="gerentes")
+public class Gerente extends Usuario{
 
-    @NotBlank
-    @Column(nullable = false)
-    protected String nome;
-
-    @NotBlank
-    @Column(nullable = false, unique = true, length = 14)
-    protected String cpf; // formato "000.000.000-00" (validação pode ser ampliada)
-
-    @Email
-    @NotBlank
-    @Column(nullable = false, unique = true)
-    protected String email;
-
-    @Column(nullable = false)
-    protected boolean ativo = true;
-
-    @NotBlank
-    @Column(nullable = false)
-    protected String senha;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    protected Role role;
 }

@@ -8,6 +8,7 @@ import com.conta_bancaria.domain.exception.ContaMesmoTipoException;
 import com.conta_bancaria.domain.exception.EntidadeNaoEncontradaException;
 import com.conta_bancaria.domain.repository.ClienteRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +28,7 @@ public class ClienteService {
         return cliente;
     }
 
+    @PreAuthorize("hasRole('GERENTE')")
     public ClienteResponseDTO registrarCliente(ClienteRegistroDTO dto) {
         var cliente = clienteRepository.findByCpfAndAtivoTrue(dto.cpf()).orElseGet(
                 () -> clienteRepository.save(dto.toEntity())
@@ -48,17 +50,20 @@ public class ClienteService {
         return ClienteResponseDTO.fromEntity(clienteRepository.save(cliente));
     }
 
+    @PreAuthorize("hasRole('GERENTE')")
     public List<ClienteResponseDTO> exibirClientesAtivos() {
         return clienteRepository.findAllByAtivoTrue().stream()
                 .map(ClienteResponseDTO::fromEntity)
                 .toList();
     }
 
+    @PreAuthorize("hasAnyRole('GERENTE','CLIENTE')")
     public ClienteResponseDTO buscarClientePorCpf(String cpf) {
        var cliente = buscarClientePorCpfEAtivoTrue(cpf);
         return ClienteResponseDTO.fromEntity(cliente);
     }
 
+    @PreAuthorize("hasRole('CLIENTE')")
     public ClienteResponseDTO atualizarCliente(String cpf, ClienteAtualizadoDTO dto) {
         var cliente = buscarClientePorCpfEAtivoTrue(cpf);
 
@@ -68,6 +73,7 @@ public class ClienteService {
         return ClienteResponseDTO.fromEntity(clienteRepository.save(cliente));
     }
 
+    @PreAuthorize("hasAnyRole('GERENTE', 'CLIENTE')")
     public void deletarCliente(String cpf) {
         var cliente = buscarClientePorCpfEAtivoTrue(cpf);
         cliente.setAtivo(false);

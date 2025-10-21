@@ -36,3 +36,4 @@ public record GerenteDTO(
                 .role(this.role != null ? this.role : Role.GERENTE)
                 .build();
     }
+}

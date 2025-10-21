@@ -1,7 +1,11 @@
 package com.conta_bancaria.application.service;
 
 import com.conta_bancaria.application.dto.AuthDTO;
-import com.senai.modelo_autenticacao_autorizacao.infrastructure.security.JwtService;
+import com.conta_bancaria.domain.entity.Usuario;
+
+import com.conta_bancaria.domain.exception.UsuarioNaoEncontradoException;
+import com.conta_bancaria.domain.repository.UsuarioRepository;
+import com.conta_bancaria.infrastructure.security.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
