@@ -60,9 +60,8 @@ public abstract class Conta {
     }
 
 
-
     protected static void validarValorMaiorQueZero(BigDecimal valor, String operacao) {
-        if(valor.compareTo(BigDecimal.ZERO) <= 0) {
+        if (valor.compareTo(BigDecimal.ZERO) <= 0) {
             throw new ValorNegativoException(operacao);
         }
     }

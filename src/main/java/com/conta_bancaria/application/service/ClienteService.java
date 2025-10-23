@@ -60,13 +60,13 @@ public class ClienteService {
                 .toList();
     }
 
-    @PreAuthorize("hasAnyRole('GERENTE','CLIENTE')")
+    @PreAuthorize("hasRole('GERENTE')")
     public ClienteResponseDTO buscarClientePorCpf(String cpf) {
-       var cliente = buscarClientePorCpfEAtivoTrue(cpf);
+        var cliente = buscarClientePorCpfEAtivoTrue(cpf);
         return ClienteResponseDTO.fromEntity(cliente);
     }
 
-    @PreAuthorize("hasRole('CLIENTE')")
+    @PreAuthorize("hasRole('GERENTE')")
     public ClienteResponseDTO atualizarCliente(String cpf, ClienteAtualizadoDTO dto) {
         var cliente = buscarClientePorCpfEAtivoTrue(cpf);
 
@@ -76,7 +76,7 @@ public class ClienteService {
         return ClienteResponseDTO.fromEntity(clienteRepository.save(cliente));
     }
 
-    @PreAuthorize("hasAnyRole('GERENTE', 'CLIENTE')")
+    @PreAuthorize("hasRole('GERENTE')")
     public void deletarCliente(String cpf) {
         var cliente = buscarClientePorCpfEAtivoTrue(cpf);
         cliente.setAtivo(false);

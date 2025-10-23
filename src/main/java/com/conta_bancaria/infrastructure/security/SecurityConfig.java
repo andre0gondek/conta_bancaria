@@ -26,20 +26,23 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**","/swagger-ui/**","/v3/api-docs/**").permitAll()
 
+                        //login
+                        .requestMatchers(HttpMethod.POST, "/login").hasAnyRole("GERENTE","CLIENTE")
+
                         //cliente
                         .requestMatchers(HttpMethod.POST, "/cliente").hasRole("GERENTE")
-                        .requestMatchers(HttpMethod.GET, "/cliente/cpf/{cpf}").hasAnyRole("GERENTE","CLIENTE")
-                        .requestMatchers(HttpMethod.PUT, "/cliente/cpf/{cpf}").hasRole("CLIENTE")
+                        .requestMatchers(HttpMethod.GET, "/cliente/cpf/{cpf}").hasRole("GERENTE")
+                        .requestMatchers(HttpMethod.PUT, "/cliente/cpf/{cpf}").hasRole("GERENTE")
                         .requestMatchers(HttpMethod.GET, "/cliente").hasRole("GERENTE")
-                        .requestMatchers(HttpMethod.DELETE, "/cliente/cpf/{cpf}").hasAnyRole("GERENTE","CLIENTE")
+                        .requestMatchers(HttpMethod.DELETE, "/cliente/cpf/{cpf}").hasRole("GERENTE")
 
                         //conta
                         .requestMatchers(HttpMethod.GET, "/conta").hasRole("GERENTE")
-                        .requestMatchers(HttpMethod.GET, "/conta/{numero}").hasAnyRole("GERENTE","CLIENTE")
+                        .requestMatchers(HttpMethod.GET, "/conta/{numero}").hasRole("GERENTE")
                         .requestMatchers(HttpMethod.POST, "/conta/{numero}/sacar").hasRole("CLIENTE")
                         .requestMatchers(HttpMethod.POST, "/conta/{numero}/depositar").hasRole("CLIENTE")
                         .requestMatchers(HttpMethod.POST, "/conta/{numero}/transferir").hasRole("CLIENTE")
-                        .requestMatchers(HttpMethod.PUT, "/conta/{numero}").hasRole("CLIENTE")
+                        .requestMatchers(HttpMethod.PUT, "/conta/{numero}").hasAnyRole("GERENTE", "CLIENTE")
                         .requestMatchers(HttpMethod.DELETE, "/conta/{numero}").hasAnyRole("GERENTE", "CLIENTE")
                         .requestMatchers(HttpMethod.POST, "/conta/{numero}/rendimento").hasRole("GERENTE")
                         .anyRequest().authenticated()

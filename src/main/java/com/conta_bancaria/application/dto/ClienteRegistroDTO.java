@@ -24,7 +24,11 @@ public record ClienteRegistroDTO(
         @Valid
         ContaResumoDTO contas,
 
+        @NotBlank(message = "Por favor, digite um email para o cliente")
         String email,
+
+        @NotBlank(message = "O usuário precisa de uma senha.")
+        @Size(min = 4, max = 8, message = "A sua senha deve ter no mínimo 4 digitos.")
         String senha
 ) {
     public Cliente toEntity() {

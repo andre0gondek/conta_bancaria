@@ -38,7 +38,7 @@ public class ContaService {
                 .toList();
     }
 
-    @PreAuthorize("hasAnyRole('GERENTE', 'CLIENTE')")
+    @PreAuthorize("hasRole('GERENTE')")
     @Transactional(readOnly = true)
     public ContaResumoDTO exibirContasPorNumero(String numero) {
         Conta c = buscarConta(numero);
@@ -98,7 +98,7 @@ public class ContaService {
     @PreAuthorize("hasRole('GERENTE')")
     public ContaResumoDTO aplicarRendimento(String numero) {
         Conta conta = buscarConta(numero);
-        if (conta instanceof ContaPoupanca poupanca){
+        if (conta instanceof ContaPoupanca poupanca) {
             poupanca.aplicarRendimento();
             return ContaResumoDTO.fromEntity(repository.save(poupanca));
         }
