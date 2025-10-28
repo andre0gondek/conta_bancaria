@@ -1,9 +1,6 @@
 package com.conta_bancaria.ui_interface.controller;
 
-import com.conta_bancaria.application.dto.ContaAtualizadaDTO;
-import com.conta_bancaria.application.dto.ContaResumoDTO;
-import com.conta_bancaria.application.dto.SaqueDepositoDTO;
-import com.conta_bancaria.application.dto.TransferenciaDTO;
+import com.conta_bancaria.application.dto.*;
 import com.conta_bancaria.application.service.ContaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -33,7 +30,7 @@ public class ContaController {
             summary = "Listar todas as contas",
             description = "Retorna todas as contas cadastradas por um gerente",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Lista de contas retornada com sucesso")
+                    @ApiResponse(responseCode = "200", description = "Lista de contas retornadas com sucesso.")
             }
     )
     @GetMapping

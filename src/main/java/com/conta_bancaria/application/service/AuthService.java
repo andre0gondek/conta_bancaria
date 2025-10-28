@@ -20,7 +20,7 @@ public class AuthService {
     private final PasswordEncoder encoder;
     private final JwtService jwt;
 
-    @PreAuthorize("hasAnyRole('GERENTE', 'CLIENTE')")
+//    @PreAuthorize("hasAnyRole('GERENTE', 'CLIENTE')")
     public String login(AuthDTO.LoginRequest req) {
         Usuario usuario = usuarios.findByEmail(req.email())
                 .orElseThrow(() -> new UsuarioNaoEncontradoException("Usuário não encontrado"));

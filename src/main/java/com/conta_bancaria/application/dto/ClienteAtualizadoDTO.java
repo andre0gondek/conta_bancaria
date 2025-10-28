@@ -12,6 +12,13 @@ public record ClienteAtualizadoDTO(
 
         @NotBlank(message = "O CPF é obrigatório")
         @Pattern(regexp = "\\d{11}", message = "O CPF deve conter exatamente 11 dígitos numéricos")
-        String cpf
+        String cpf,
+
+        @NotBlank(message = "Por favor, digite um email para o cliente")
+        String email,
+
+        @NotBlank(message = "O usuário precisa de uma senha.")
+        @Size(min = 4, max = 8, message = "A sua senha deve ter no mínimo 4 digitos.")
+        String senha
 ) {
 }

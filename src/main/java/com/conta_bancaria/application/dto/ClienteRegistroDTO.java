@@ -17,28 +17,28 @@ public record ClienteRegistroDTO(
         String nome,
 
         @NotBlank(message = "O CPF não pode estar vazio.")
-        @Pattern(regexp = "\\d{11}", message = "O CPF deve conter exatamente 11 dígitos numéricos")
+        @Pattern(regexp = "\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}|\\d{11}", message = "O CPF deve conter exatamente 11 dígitos numéricos")
         String cpf,
-
-        @NotNull(message = "Deve haver pelo menos uma conta.")
-        @Valid
-        ContaResumoDTO contas,
 
         @NotBlank(message = "Por favor, digite um email para o cliente")
         String email,
 
         @NotBlank(message = "O usuário precisa de uma senha.")
         @Size(min = 4, max = 8, message = "A sua senha deve ter no mínimo 4 digitos.")
-        String senha
+        String senha,
+
+        @NotNull(message = "Deve haver pelo menos uma conta.")
+        @Valid
+        ContaResumoDTO contas
 ) {
     public Cliente toEntity() {
         return Cliente.builder()
                 .ativo(true)
                 .nome(this.nome)
                 .cpf(this.cpf)
-                .contas(new ArrayList<Conta>())
                 .email(this.email)
                 .senha(this.senha)
+                .contas(new ArrayList<Conta>())
                 .role(Role.CLIENTE)
                 .build();
     }
