@@ -1,9 +1,20 @@
 package com.conta_bancaria.domain.entity;
 
+import com.conta_bancaria.domain.enums.StatusPagamento;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
+import java.util.List;
 
+@Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@SuperBuilder
 public class Pagamento {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -19,11 +30,11 @@ public class Pagamento {
     protected BigDecimal valorPago;
 
     @Column(nullable = false)
-    private boolean dataPagamento;
+    private String dataPagamento;
     @Column
-    private String status;
+    private StatusPagamento status;
 
     @ManyToMany
     @Column
-    private Taxa taxas; // Necessário para a constraint única
+    private List<Taxa> taxas;
 }
