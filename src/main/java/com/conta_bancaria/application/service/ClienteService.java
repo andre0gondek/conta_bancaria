@@ -34,7 +34,6 @@ public class ClienteService {
     public ClienteResponseDTO registrarCliente(ClienteRegistroDTO dto) {
         var cliente = clienteRepository.findByCpfAndAtivoTrue(dto.cpf()).orElseGet(
                 () -> clienteRepository.save(dto.toEntity())
-
         );
 
         var contas = cliente.getContas();

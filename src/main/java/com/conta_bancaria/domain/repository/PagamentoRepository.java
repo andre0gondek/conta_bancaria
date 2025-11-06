@@ -1,4 +1,10 @@
 package com.conta_bancaria.domain.repository;
 
-public interface PagamentoRepository {
+import com.conta_bancaria.domain.entity.Pagamento;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.Optional;
+
+public interface PagamentoRepository extends JpaRepository<Pagamento, String> {
+    Optional<Pagamento> findByBoleto(String boleto);
 }

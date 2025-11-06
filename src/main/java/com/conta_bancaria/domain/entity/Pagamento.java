@@ -22,7 +22,7 @@ public class Pagamento {
 
     @ManyToOne
     @Column(nullable = false)
-    private Conta conta;
+    private String contaNumero;
 
     private String boleto;
 

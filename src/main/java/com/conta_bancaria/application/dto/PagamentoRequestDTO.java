@@ -16,9 +16,9 @@ public record PagamentoRequestDTO(
         StatusPagamento status,
         List<TaxaDTO.TaxaRequestDTO> taxas
 ) {
-    public Pagamento toEntity(Conta conta) {
+    public Pagamento toEntity() {
         return Pagamento.builder()
-                .conta(conta)
+                .contaNumero(this.contaNumero)
                 .boleto(this.boleto)
                 .valorPago(this.valorPago)
                 .status(StatusPagamento.PENDENTE)
