@@ -13,5 +13,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @RequiredArgsConstructor
 public class PagamentoDomainService {
-
+    private static PagamentoRepository repository;
+    @PreAuthorize("hasRole('GERENTE')")
+    public PagamentoResponseDTO gerarPagamento(PagamentoRequestDTO dto){
+        var pagamento = repository.findByBoleto(dto.boleto()).orElseGet(
+                () -> repository.save(dto.toEntity())
+        );
+        return PagamentoResponseDTO.fromEntity(repository.save(pagamento));
+    }
 }

@@ -9,14 +9,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 public class PagamentoAppService {
     private static PagamentoRepository repository;
 
-    @PreAuthorize("hasRole('GERENTE')")
-    public PagamentoResponseDTO gerarPagamento(PagamentoRequestDTO dto){
-        var pagamento = repository.findByBoleto(dto.boleto()).orElseGet(
-                () -> repository.save(dto.toEntity())
-        );
-        return PagamentoResponseDTO.fromEntity(repository.save(pagamento));
-    }
-
     public PagamentoResponseDTO pagarBoleto(PagamentoRequestDTO dto){
 
         return PagamentoResponseDTO.fromEntity(repository.save(new Pagamento()));
