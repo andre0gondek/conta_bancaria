@@ -7,6 +7,7 @@ import com.conta_bancaria.application.dto.TransferenciaDTO;
 import com.conta_bancaria.domain.entity.Conta;
 import com.conta_bancaria.domain.entity.ContaCorrente;
 import com.conta_bancaria.domain.entity.ContaPoupanca;
+import com.conta_bancaria.domain.exception.AutenticacaoIoTExpiradaException;
 import com.conta_bancaria.domain.exception.EntidadeNaoEncontradaException;
 import com.conta_bancaria.domain.exception.RendimentoInvalidoException;
 import com.conta_bancaria.domain.exception.TipoDeContaInvalidoException;
@@ -71,6 +72,11 @@ public class ContaService {
     @PreAuthorize("hasRole('CLIENTE')")
     public ContaResumoDTO sacar(String numero, SaqueDepositoDTO dto) {
         Conta c = buscarConta(numero);
+        boolean autenticacaoValida = iotService.autenticarCliente(c.getCliente());
+
+        if (!autenticacaoValida) {
+            throw new AutenticacaoIoTExpiradaException("Autenticação IoT falhou ou expirou.");
+        }
 
         c.sacar(dto.valor());
         return ContaResumoDTO.fromEntity(repository.save(c));
@@ -88,6 +94,12 @@ public class ContaService {
     public ContaResumoDTO transferir(String numero, TransferenciaDTO dto) {
         Conta contaOrigem = buscarConta(numero);
         Conta contaDestino = buscarConta(dto.contaDestino());
+
+        boolean autenticacaoValida = iotService.autenticarCliente(contaOrigem.getCliente());
+
+        if (!autenticacaoValida) {
+            throw new AutenticacaoIoTExpiradaException("Autenticação IoT falhou ou expirou.");
+        }
 
         contaOrigem.transferir(dto.valor(), contaDestino);
 

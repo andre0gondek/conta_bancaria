@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -16,25 +17,33 @@ import java.util.List;
 @NoArgsConstructor
 @SuperBuilder
 public class Pagamento {
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    @ManyToOne
-    @Column(nullable = false)
-    private String contaNumero;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "conta_id", nullable = false)
+    private Conta conta;
 
+    @Column(nullable = false)
     private String boleto;
 
-    @Column(nullable = false, precision = 19, scale = 2) // Ajuste na precisão para valores monetários
-    protected BigDecimal valorPago;
+    @Column(nullable = false, precision = 19, scale = 2)
+    private BigDecimal valorPago;
 
     @Column(nullable = false)
-    private String dataPagamento;
-    @Column
+    private LocalDateTime dataPagamento;
+
+    @Enumerated(EnumType.STRING) // salva o enum como texto
+    @Column(nullable = false)
     private StatusPagamento status;
 
     @ManyToMany
-    @Column
+    @JoinTable(
+            name = "pagamento_taxa",
+            joinColumns = @JoinColumn(name = "pagamento_id"),
+            inverseJoinColumns = @JoinColumn(name = "taxa_id")
+    )
     private List<Taxa> taxas;
 }
