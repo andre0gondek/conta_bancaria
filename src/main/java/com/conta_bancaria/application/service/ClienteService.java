@@ -1,8 +1,8 @@
 package com.conta_bancaria.application.service;
 
-import com.conta_bancaria.application.dto.ClienteAtualizadoDTO;
-import com.conta_bancaria.application.dto.ClienteRegistroDTO;
-import com.conta_bancaria.application.dto.ClienteResponseDTO;
+import com.conta_bancaria.application.dto.cliente.ClienteAtualizadoDTO;
+import com.conta_bancaria.application.dto.cliente.ClienteRegistroDTO;
+import com.conta_bancaria.application.dto.cliente.ClienteResponseDTO;
 import com.conta_bancaria.domain.entity.Cliente;
 import com.conta_bancaria.domain.exception.ContaMesmoTipoException;
 import com.conta_bancaria.domain.exception.EntidadeNaoEncontradaException;

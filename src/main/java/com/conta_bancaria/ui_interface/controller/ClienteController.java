@@ -1,8 +1,8 @@
 package com.conta_bancaria.ui_interface.controller;
 
-import com.conta_bancaria.application.dto.ClienteAtualizadoDTO;
-import com.conta_bancaria.application.dto.ClienteRegistroDTO;
-import com.conta_bancaria.application.dto.ClienteResponseDTO;
+import com.conta_bancaria.application.dto.cliente.ClienteAtualizadoDTO;
+import com.conta_bancaria.application.dto.cliente.ClienteRegistroDTO;
+import com.conta_bancaria.application.dto.cliente.ClienteResponseDTO;
 import com.conta_bancaria.application.service.ClienteService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

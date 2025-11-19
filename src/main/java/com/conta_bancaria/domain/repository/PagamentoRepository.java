@@ -1,6 +1,5 @@
 package com.conta_bancaria.domain.repository;
 
-import com.conta_bancaria.application.dto.PagamentoResponseDTO;
 import com.conta_bancaria.domain.entity.Conta;
 import com.conta_bancaria.domain.entity.Pagamento;
 import org.springframework.data.jpa.repository.JpaRepository;

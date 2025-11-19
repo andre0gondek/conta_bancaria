@@ -1,6 +1,5 @@
-package com.conta_bancaria.application.dto;
+package com.conta_bancaria.application.dto.cliente;
 
-import com.conta_bancaria.domain.entity.Cliente;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;

@@ -1,8 +1,7 @@
-package com.conta_bancaria.application.dto;
+package com.conta_bancaria.application.dto.conta_e_transferencias;
 
 import com.conta_bancaria.domain.entity.Conta;
 import com.conta_bancaria.domain.entity.Pagamento;
-import com.conta_bancaria.domain.entity.Taxa;
 import com.conta_bancaria.domain.enums.StatusPagamento;
 
 import java.math.BigDecimal;
@@ -14,7 +13,8 @@ public record PagamentoRequestDTO(
         String boleto,
         BigDecimal valorPago,
         StatusPagamento status,
-        List<TaxaDTO.TaxaRequestDTO> taxas
+        List<TaxaDTO.TaxaRequestDTO> taxas,
+        String codigoAutenticacao
 ) {
     public Pagamento toEntity(Conta conta) {
         return Pagamento.builder()

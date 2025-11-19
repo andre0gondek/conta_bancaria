@@ -1,6 +1,9 @@
 package com.conta_bancaria.ui_interface.controller;
 
-import com.conta_bancaria.application.dto.*;
+import com.conta_bancaria.application.dto.conta_e_transferencias.ContaAtualizadaDTO;
+import com.conta_bancaria.application.dto.conta_e_transferencias.ContaResumoDTO;
+import com.conta_bancaria.application.dto.conta_e_transferencias.SaqueDepositoDTO;
+import com.conta_bancaria.application.dto.conta_e_transferencias.TransferenciaDTO;
 import com.conta_bancaria.application.service.ContaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

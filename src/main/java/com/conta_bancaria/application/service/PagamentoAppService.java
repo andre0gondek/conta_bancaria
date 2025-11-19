@@ -1,21 +1,29 @@
 package com.conta_bancaria.application.service;
 
-import com.conta_bancaria.application.dto.PagamentoRequestDTO;
-import com.conta_bancaria.application.dto.PagamentoResponseDTO;
+import com.conta_bancaria.application.dto.conta_e_transferencias.PagamentoRequestDTO;
+import com.conta_bancaria.application.dto.conta_e_transferencias.PagamentoResponseDTO;
 import com.conta_bancaria.domain.PagamentoDomainService;
 import com.conta_bancaria.domain.entity.Conta;
 import com.conta_bancaria.domain.entity.Pagamento;
 import com.conta_bancaria.domain.exception.EntidadeNaoEncontradaException;
 import com.conta_bancaria.domain.repository.ContaRepository;
 import com.conta_bancaria.domain.repository.PagamentoRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Service
+@Transactional
+@RequiredArgsConstructor
 public class PagamentoAppService {
 
-    private static PagamentoRepository repository;
-    private static ContaRepository contaRepository;
+    private final PagamentoRepository repository;
+    private final ContaRepository contaRepository;
+    private final CodigoAutenticacaoService codigoAutenticacaoService;
+    private final IoTService iotService;
 
     private Pagamento buscarPagamentoPorBoleto(String boleto) {
         var pagamento = repository.findByBoleto(boleto).orElseThrow(
@@ -62,6 +70,27 @@ public class PagamentoAppService {
         return repository.findByConta(conta).stream()
                 .map(PagamentoResponseDTO::fromEntity)
                 .toList();
+    }
+
+    @PreAuthorize("hasRole('CLIENTE')")
+    public PagamentoResponseDTO realizarPagamento(PagamentoRequestDTO dto) {
+        Conta conta = contaRepository.findByNumeroAndAtivaTrue(dto.contaNumero())
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("Conta não encontrada"));
+
+        // solicita a autenticacao
+        iotService.solicitarAutenticacao(conta.getCliente().getCpf());
+
+        // 3. para validar o codigo do IoT
+        codigoAutenticacaoService.validarCodigo(dto.codigoAutenticacao(), conta.getCliente().getCpf());
+
+        // 4. cria o pagamento
+        Pagamento pagamento = dto.toEntity(conta);
+        PagamentoDomainService.validarPagamento(pagamento);
+        PagamentoDomainService.calcularTaxa(pagamento);
+        PagamentoDomainService.definirStatus(pagamento, true); // se chegou até aqui, IoT validado
+
+        Pagamento pagamentoSalvo = repository.save(pagamento);
+        return PagamentoResponseDTO.fromEntity(pagamentoSalvo);
     }
 
 }

@@ -1,7 +1,7 @@
-package com.conta_bancaria.application.dto;
+package com.conta_bancaria.application.dto.cliente;
 
+import com.conta_bancaria.application.dto.conta_e_transferencias.ContaResumoDTO;
 import com.conta_bancaria.domain.entity.Cliente;
-import com.conta_bancaria.domain.entity.ContaCorrente;
 
 import java.util.List;
 
