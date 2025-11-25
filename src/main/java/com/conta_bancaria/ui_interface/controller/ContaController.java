@@ -16,7 +16,6 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 import java.util.List;
 
@@ -72,7 +71,7 @@ public class ContaController {
             parameters = {
                     @Parameter(name = "numero", description = "Digite o numero da conta para atualizar:", example = "90009-X")
             },
-            requestBody = @RequestBody(
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     required = true,
                     content = @Content(
                             schema = @Schema(implementation = ContaAtualizadaDTO.class),
@@ -149,7 +148,7 @@ public class ContaController {
             parameters = {
                     @Parameter(name = "numero", description = "Digite o numero da conta realizar o saque:", example = "90009-X")
             },
-            requestBody = @RequestBody(
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     required = true,
                     content = @Content(
                             schema = @Schema(implementation = SaqueDepositoDTO.class),
@@ -196,7 +195,7 @@ public class ContaController {
             parameters = {
                     @Parameter(name = "numero", description = "Digite o numero da conta realizar o deposito:", example = "90009-X")
             },
-            requestBody = @RequestBody(
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     required = true,
                     content = @Content(
                             schema = @Schema(implementation = SaqueDepositoDTO.class),
@@ -232,6 +231,7 @@ public class ContaController {
     @PostMapping("/{numero}/depositar")
     public ResponseEntity<ContaResumoDTO> depositar(@PathVariable String numero,
                                                     @Valid @RequestBody SaqueDepositoDTO dto) {
+        System.out.println("DTO Recebido: " + dto);
         return ResponseEntity.ok(service.depositar(numero, dto));
     }
 
@@ -242,7 +242,7 @@ public class ContaController {
             parameters = {
                     @Parameter(name = "numero", description = "Digite o numero da conta realizar a transferencia:", example = "90009-X")
             },
-            requestBody = @RequestBody(
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     required = true,
                     content = @Content(
                             schema = @Schema(implementation = SaqueDepositoDTO.class),
@@ -289,7 +289,7 @@ public class ContaController {
             parameters = {
                     @Parameter(name = "numero", description = "Digite o numero da conta em que deseja aplicar o rendimento:", example = "90009-X")
             },
-            requestBody = @RequestBody(
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     required = true,
                     content = @Content(
                             schema = @Schema(implementation = SaqueDepositoDTO.class),

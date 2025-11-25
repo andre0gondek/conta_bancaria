@@ -30,11 +30,11 @@ public class SecurityConfig {
 //                        .requestMatchers(HttpMethod.POST, "/login").hasAnyRole("GERENTE","CLIENTE")
 
                         //cliente
-                        .requestMatchers(HttpMethod.POST, "/cliente").hasRole("GERENTE")
-                        .requestMatchers(HttpMethod.GET, "/cliente/cpf/{cpf}").hasRole("GERENTE")
-                        .requestMatchers(HttpMethod.PUT, "/cliente/cpf/{cpf}").hasRole("GERENTE")
-                        .requestMatchers(HttpMethod.GET, "/cliente").hasRole("GERENTE")
-                        .requestMatchers(HttpMethod.DELETE, "/cliente/cpf/{cpf}").hasRole("GERENTE")
+                        .requestMatchers(HttpMethod.POST, "/api/cliente").hasRole("GERENTE")
+                        .requestMatchers(HttpMethod.GET, "/api/cliente/cpf/{cpf}").hasRole("GERENTE")
+                        .requestMatchers(HttpMethod.PUT, "/api/cliente/cpf/{cpf}").hasRole("GERENTE")
+                        .requestMatchers(HttpMethod.GET, "/api/cliente").hasRole("GERENTE")
+                        .requestMatchers(HttpMethod.DELETE, "/api/cliente/cpf/{cpf}").hasRole("GERENTE")
 
                         //conta
                         .requestMatchers(HttpMethod.GET, "/conta").hasRole("GERENTE")
@@ -45,7 +45,12 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PUT, "/conta/{numero}").hasAnyRole("GERENTE", "CLIENTE")
                         .requestMatchers(HttpMethod.DELETE, "/conta/{numero}").hasAnyRole("GERENTE", "CLIENTE")
                         .requestMatchers(HttpMethod.POST, "/conta/{numero}/rendimento").hasRole("GERENTE")
-                        .anyRequest().authenticated()
+
+                       // pagamento
+                       .requestMatchers(HttpMethod.POST, "/api/pagamento").hasRole("GERENTE")
+                       .requestMatchers(HttpMethod.POST, "/api/pagamento/cliente").hasRole("CLIENTE")
+                                .anyRequest().authenticated()
+
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .userDetailsService(usuarioDetailsService);

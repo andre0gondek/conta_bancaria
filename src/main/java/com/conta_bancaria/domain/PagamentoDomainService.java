@@ -43,15 +43,14 @@ public class PagamentoDomainService {
         if (pagamento.getTaxas() != null) {
             for (Taxa taxa : pagamento.getTaxas()) {
 
-                if (taxa.getPercentual() != null && taxa.getPercentual().compareTo(BigDecimal.ZERO) > 0) {
+                if (taxa.getPercentual() != null && taxa.getPercentual().compareTo(BigDecimal.ZERO) >= 0) {
                     BigDecimal valorPercentual = valorBase.multiply(taxa.getPercentual());
                     totalTaxas = totalTaxas.add(valorPercentual);
-                } else throw new TaxaInvalidaException("Percentual da taxa nulo, ou negativo.");
+                }
 
-
-                if (taxa.getValorFixo() != null && taxa.getValorFixo().compareTo(BigDecimal.ZERO) > 0) {
+                if (taxa.getValorFixo() != null && taxa.getValorFixo().compareTo(BigDecimal.ZERO) >= 0) {
                     totalTaxas = totalTaxas.add(taxa.getValorFixo());
-                } else throw new TaxaInvalidaException("Valor fixo da taxa nulo, ou negativo.");
+                }
             }
         }
 

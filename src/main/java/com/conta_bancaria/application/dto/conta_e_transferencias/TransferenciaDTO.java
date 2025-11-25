@@ -1,5 +1,6 @@
 package com.conta_bancaria.application.dto.conta_e_transferencias;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -10,10 +11,12 @@ import java.math.BigDecimal;
 public record TransferenciaDTO(
         @NotBlank(message = "A conta de destino é obrigatória")
         @Pattern(regexp = "\\d{5,20}", message = "Número da conta destino inválido")
+        @JsonProperty("valor")
         String contaDestino,
 
         @NotNull(message = "O valor é obrigatório")
         @Positive(message = "O valor deve ser maior que zero")
+        @JsonProperty("valor")
         BigDecimal valor
 ) {
 }
