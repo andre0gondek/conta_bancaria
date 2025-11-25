@@ -1,7 +1,7 @@
 package com.conta_bancaria.application.service;
 
 import com.conta_bancaria.application.dto.codigo_autenticacao.CodigoRequestDTO;
-//import com.rafaelcosta.spring_mqttx.domain.annotation.MqttPublisher;
+import com.rafaelcosta.spring_mqttx.domain.annotation.MqttPublisher;
 import com.conta_bancaria.domain.entity.Cliente;
 import com.conta_bancaria.domain.entity.CodigoAutenticacao;
 import com.conta_bancaria.domain.exception.EntidadeNaoEncontradaException;
@@ -19,8 +19,8 @@ public class IoTSubscriber {
     private final CodigoAutenticacaoRepository codigoRepo;
     private final ClienteRepository clienteRepo;
 
-   // @MqttSubscriber("banco/validacao/{clienteCpf}")
-    public void receberCodigo( /* @MqttPayload */ CodigoRequestDTO dto) {
+   @MqttSubscriber("banco/validacao/{clienteCpf}")
+    public void receberCodigo(  @MqttPayload CodigoRequestDTO dto) {
         Cliente cliente = clienteRepo.findByCpfAndAtivoTrue(dto.clienteCpf())
                 .orElseThrow(() -> new EntidadeNaoEncontradaException("Cliente não encontrado"));
 

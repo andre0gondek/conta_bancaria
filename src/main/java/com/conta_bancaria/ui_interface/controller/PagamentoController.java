@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 
 @RestController
-@RequestMapping("/api/pagarBoleto")
+@RequestMapping("/api/pagamento")
 @RequiredArgsConstructor
 public class PagamentoController {
     private final PagamentoAppService service;
@@ -22,7 +22,18 @@ public class PagamentoController {
             @RequestParam boolean respostaValidaMQTT) {
         PagamentoResponseDTO createdPagamento = service.processarPagamento(dto, respostaValidaMQTT);
 
-        return ResponseEntity.created(URI.create("/api/pagarBoleto/" +
+        return ResponseEntity.created(URI.create("/api/pagamento/" +
                 createdPagamento.boleto())).body(createdPagamento);
+    }
+
+    @PostMapping("/cliente")
+    public ResponseEntity<PagamentoResponseDTO> realizarPagamento(
+            @Valid @RequestBody PagamentoRequestDTO dto) {
+
+        PagamentoResponseDTO pagamento = service.realizarPagamento(dto);
+
+        return ResponseEntity.created(
+                URI.create("/api/pagamento/" + pagamento.boleto())
+        ).body(pagamento);
     }
 }

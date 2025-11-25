@@ -80,10 +80,9 @@ public class PagamentoAppService {
         // solicita a autenticacao
         iotService.solicitarAutenticacao(conta.getCliente().getCpf());
 
-        // 3. para validar o codigo do IoT
+        // para validar o codigo do IoT
         codigoAutenticacaoService.validarCodigo(dto.codigoAutenticacao(), conta.getCliente().getCpf());
 
-        // 4. cria o pagamento
         Pagamento pagamento = dto.toEntity(conta);
         PagamentoDomainService.validarPagamento(pagamento);
         PagamentoDomainService.calcularTaxa(pagamento);
