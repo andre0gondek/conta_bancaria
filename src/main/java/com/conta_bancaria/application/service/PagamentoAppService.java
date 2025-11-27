@@ -59,11 +59,13 @@ public class PagamentoAppService {
         // para validar o codigo do IoT
         codigoAutenticacaoService.validarCodigo(dto.codigoAutenticacao(), conta.getCliente().getCpf());
 
-        List<Taxa> taxasAplicaveis = taxasRepository.findByTipoPagamento(dto.tipoPagamento());
+        // busca o tipo de taxas disponíveis no banco, para determinado pagamento
+        List<Taxa> taxasDoBanco = taxasRepository.findByTipoPagamento(dto.tipoPagamento());
 
         Pagamento pagamento = dto.toEntity(conta);
         PagamentoDomainService.validarPagamento(pagamento);
-        PagamentoDomainService.calcularTaxa(pagamento, taxasAplicaveis);
+        // calculo das taxas do banco
+        PagamentoDomainService.calcularTaxa(pagamento, taxasDoBanco);
         PagamentoDomainService.definirStatus(pagamento, true); // se chegou até aqui, IoT validado
 
         Pagamento pagamentoSalvo = repository.save(pagamento);

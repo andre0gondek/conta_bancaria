@@ -18,7 +18,8 @@ public record PagamentoRequestDTO(
         String boleto,
         BigDecimal valorPago,
         StatusPagamento status,
-        @NotNull(message = "O tipo de pagamento é obrigatório (PIX, BOLETO, ETC)")
+
+        // escolha do tipo de pagamento do cliente
         TipoPagamento tipoPagamento,
         String codigoAutenticacao
 ) {

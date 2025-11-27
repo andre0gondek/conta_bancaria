@@ -16,10 +16,8 @@ public class TaxaController {
     private final TaxaService service;
 
     @PostMapping
-    public ResponseEntity<TaxaDTO.TaxaResponseDTO> criarTaxa(
-            @RequestBody TaxaDTO.TaxaRequestDTO dto,
-            @RequestParam TipoPagamento tipo) {
-        return ResponseEntity.ok(service.criarTaxa(dto, tipo));
+    public ResponseEntity<TaxaDTO.TaxaResponseDTO> criarTaxa(@RequestBody TaxaDTO.TaxaRequestDTO dto) {
+        return ResponseEntity.ok(service.criarTaxa(dto));
     }
 
     @GetMapping

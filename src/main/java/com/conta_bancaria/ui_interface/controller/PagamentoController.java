@@ -72,11 +72,11 @@ public class PagamentoController {
                             schema = @Schema(implementation = SaqueDepositoDTO.class),
                             examples = @ExampleObject(name = "Exemplo de pagamento", value = """
                                         {
-                                           "contaNumero": "10001",
-                                           "boleto": "contatop",\s
+                                           "contaNumero": "12346",
+                                           "boleto": "ContaDeLuz",\s
                                            "valorPago": 100.00,
-                                           "tipoPagamento": "BOLETO",\s
-                                           "codigoAutenticacao": "12345"
+                                           "tipoPagamento": "LUZ",\s
+                                           "codigoAutenticacao": "123"
                                          }
                                     """)
                     )

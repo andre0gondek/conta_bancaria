@@ -18,12 +18,12 @@ public class TaxaService {
 
     @PreAuthorize("hasRole('GERENTE')")
     @Transactional
-    public TaxaDTO.TaxaResponseDTO criarTaxa(TaxaDTO.TaxaRequestDTO dto, TipoPagamento tipo) {
+    public TaxaDTO.TaxaResponseDTO criarTaxa(TaxaDTO.TaxaRequestDTO dto) {
         Taxa taxa = Taxa.builder()
                 .descricao(dto.descricao())
                 .percentual(dto.percentual())
                 .valorFixo(dto.valorFixo())
-                .tipoPagamento(tipo)
+                .tipoPagamento(dto.tipoPagamento())
                 .build();
 
         return TaxaDTO.TaxaResponseDTO.fromEntity(repository.save(taxa));
