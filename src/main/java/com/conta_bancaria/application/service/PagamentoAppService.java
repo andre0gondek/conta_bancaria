@@ -72,25 +72,3 @@ public class PagamentoAppService {
         return PagamentoResponseDTO.fromEntity(pagamentoSalvo);
     }
 }
-
-
-/* código possívelmente inutilizado
-
-    @PreAuthorize("hasRole('GERENTE')")
-    public PagamentoResponseDTO processarPagamento(PagamentoRequestDTO dto, boolean respostaValidaMQTT) {
-        Conta conta = contaRepository.findByNumeroAndAtivaTrue(dto.contaNumero())
-                .orElseThrow(() -> new EntidadeNaoEncontradaException("Conta não encontrada"));
-
-        Pagamento pagamento = dto.toEntity(conta);
-
-        PagamentoDomainService.validarPagamento(pagamento);
-
-        PagamentoDomainService.calcularTaxa(pagamento);
-
-        PagamentoDomainService.definirStatus(pagamento, respostaValidaMQTT);
-
-        Pagamento pagamentoSalvo = repository.save(pagamento);
-
-        return PagamentoResponseDTO.fromEntity(pagamentoSalvo);
-    }
-*/

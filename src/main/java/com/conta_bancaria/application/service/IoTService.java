@@ -1,7 +1,5 @@
 package com.conta_bancaria.application.service;
 
-import com.conta_bancaria.domain.entity.Cliente;
-import com.conta_bancaria.domain.exception.AutenticacaoIoTExpiradaException;
 import com.rafaelcosta.spring_mqttx.domain.annotation.MqttPublisher;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

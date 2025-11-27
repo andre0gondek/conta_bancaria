@@ -3,15 +3,11 @@ package com.conta_bancaria.application.dto.conta_e_transferencias;
 import com.conta_bancaria.domain.entity.Conta;
 import com.conta_bancaria.domain.entity.Pagamento;
 import com.conta_bancaria.domain.enums.StatusPagamento;
-import com.conta_bancaria.domain.entity.Taxa;
 import com.conta_bancaria.domain.enums.TipoPagamento;
-import jakarta.validation.constraints.NotNull;
-
-import java.time.LocalDateTime;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.List;
 
 public record PagamentoRequestDTO(
         String contaNumero,

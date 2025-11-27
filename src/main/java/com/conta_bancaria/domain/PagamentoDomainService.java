@@ -5,7 +5,6 @@ import com.conta_bancaria.domain.entity.Taxa;
 import com.conta_bancaria.domain.enums.StatusPagamento;
 import com.conta_bancaria.domain.exception.PagamentoInvalidoException;
 import com.conta_bancaria.domain.exception.SaldoInsuficienteException;
-import com.conta_bancaria.domain.exception.TaxaInvalidaException;
 import com.conta_bancaria.domain.repository.PagamentoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

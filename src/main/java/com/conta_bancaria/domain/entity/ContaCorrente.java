@@ -2,7 +2,6 @@ package com.conta_bancaria.domain.entity;
 
 import com.conta_bancaria.domain.exception.SaldoInsuficienteException;
 import jakarta.persistence.Column;
-
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import lombok.Data;

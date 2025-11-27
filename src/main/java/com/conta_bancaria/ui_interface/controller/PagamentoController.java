@@ -96,14 +96,6 @@ public class PagamentoController {
                                     }
                             )
                     ),
-                    /* @ApiResponse(
-                            responseCode = "404",
-                            description = "Pagamento não encontrado",
-                            content = @Content(
-                                    mediaType = "application/json",
-                                    examples = @ExampleObject(value = "\"Pagamento não encontrado.\"")
-                            )
-                    ) */
             }
     )
     @PostMapping("/cliente")
@@ -117,13 +109,3 @@ public class PagamentoController {
         ).body(pagamento);
     }
 }
-
-/*@PostMapping
-    public ResponseEntity<PagamentoResponseDTO> processarPagamento(
-            @Valid @RequestBody PagamentoRequestDTO dto,
-            @RequestParam boolean respostaValidaMQTT) {
-        PagamentoResponseDTO createdPagamento = service.processarPagamento(dto, respostaValidaMQTT);
-
-        return ResponseEntity.created(URI.create("/api/pagamento/" +
-                createdPagamento.boleto())).body(createdPagamento);
-    }*/

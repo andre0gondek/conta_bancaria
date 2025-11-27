@@ -1,6 +1,5 @@
 package com.conta_bancaria.domain.entity;
 
-import com.conta_bancaria.domain.exception.EntidadeNaoEncontradaException;
 import com.conta_bancaria.domain.exception.SaldoInsuficienteException;
 import com.conta_bancaria.domain.exception.TransferirParaMesmaContaException;
 import com.conta_bancaria.domain.exception.ValorNegativoException;
