@@ -7,12 +7,14 @@ import java.math.BigDecimal;
 public class TaxaDTO{
         public record TaxaRequestDTO(
                 String descricao,
-                BigDecimal percentual
+                BigDecimal percentual,
+                BigDecimal valorFixo
         ){
             public static TaxaRequestDTO fromEntity(Taxa taxa){
                 return new TaxaRequestDTO(
                         taxa.getDescricao(),
-                        taxa.getPercentual()
+                        taxa.getPercentual(),
+                        taxa.getValorFixo()
                 );
             }
         }

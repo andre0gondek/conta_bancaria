@@ -81,7 +81,7 @@ public class ContaService {
         iotService.solicitarAutenticacao(c.getCliente().getCpf());
 
         CodigoAutenticacao codigo = codigoRepository.findTopByClienteOrderByExpiraEmDesc(c.getCliente())
-                .orElseThrow(() -> new AutenticacaoIoTExpiradaException("Código não encontrado ou inválido."));
+                .orElseThrow(() -> new AutenticacaoIoTExpiradaException("Código de autenticação não encontrado ou inválido."));
 
         if (codigo.getExpiraEm().isBefore(LocalDateTime.now()) || !codigo.isValidado()) {
             throw new AutenticacaoIoTExpiradaException("Autenticação falhou ou o código expirou.");
@@ -107,7 +107,7 @@ public class ContaService {
         iotService.solicitarAutenticacao(contaOrigem.getCliente().getCpf());
 
         CodigoAutenticacao codigo = codigoRepository.findTopByClienteOrderByExpiraEmDesc(contaOrigem.getCliente())
-                .orElseThrow(() -> new AutenticacaoIoTExpiradaException("Código não encontrado ou inválido."));
+                .orElseThrow(() -> new AutenticacaoIoTExpiradaException("Código de autenticação não encontrado ou inválido."));
 
         if (codigo.getExpiraEm().isBefore(LocalDateTime.now()) || !codigo.isValidado()) {
             throw new AutenticacaoIoTExpiradaException("Autenticação falhou ou o código expirou.");

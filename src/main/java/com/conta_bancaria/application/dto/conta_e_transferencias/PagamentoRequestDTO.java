@@ -4,6 +4,9 @@ import com.conta_bancaria.domain.entity.Conta;
 import com.conta_bancaria.domain.entity.Pagamento;
 import com.conta_bancaria.domain.enums.StatusPagamento;
 import com.conta_bancaria.domain.entity.Taxa;
+import com.conta_bancaria.domain.enums.TipoPagamento;
+
+import java.time.LocalDateTime;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -14,6 +17,7 @@ public record PagamentoRequestDTO(
         String boleto,
         BigDecimal valorPago,
         StatusPagamento status,
+        TipoPagamento tipoPagamento,
         List<TaxaDTO.TaxaRequestDTO> taxas,
         String codigoAutenticacao
 ) {
@@ -23,13 +27,15 @@ public record PagamentoRequestDTO(
             taxasEntidade = this.taxas.stream().map(t -> Taxa.builder()
                     .descricao(t.descricao())
                     .percentual(t.percentual())
-                    // .valorFixo(t.valorFixo()) // <-- DTO de taxa não tem valor fixo, será feito na lógica
+                    .valorFixo(t.valorFixo())
                     .build()).toList();
         }
         return Pagamento.builder()
                 .conta(conta)
                 .boleto(this.boleto)
                 .valorPago(this.valorPago)
+                .dataPagamento(LocalDateTime.now())
+                .tipoPagamento(this.tipoPagamento)
                 .status(StatusPagamento.PENDENTE)
                 .taxas(taxasEntidade)
                 .build();

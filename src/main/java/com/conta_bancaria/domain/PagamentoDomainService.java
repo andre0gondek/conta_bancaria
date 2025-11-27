@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Service
 @Transactional
@@ -31,30 +32,41 @@ public class PagamentoDomainService {
         }
 
         if (pagamento.getConta().getSaldo().compareTo(pagamento.getValorPago()) < 0) {
-            throw new SaldoInsuficienteException("realizar pagamento");
+            throw new SaldoInsuficienteException("pagamento");
+        }
+
+        if (pagamento.getTipoPagamento() == null){
+            throw new PagamentoInvalidoException("Tipo de pagamento inválido/inexistente. Verfique se digitou corretamente: LUZ, AGUA ou BOLETO.");
         }
 
     }
 
     public static void calcularTaxa(Pagamento pagamento) {
+
+        // obter as taxas do enum para adicionar na entidade
+        List<Taxa> taxasDoTipo = pagamento.getTipoPagamento().getTaxas();
+        pagamento.setTaxas(taxasDoTipo); // Salva as taxas do Enum na entidade Pagamento
+
+        // calcular o valor final
         BigDecimal valorBase = pagamento.getValorPago();
         BigDecimal totalTaxas = BigDecimal.ZERO;
 
         if (pagamento.getTaxas() != null) {
             for (Taxa taxa : pagamento.getTaxas()) {
-                // Calcula percentual se existir e for positivo
+                // percentual da taxa
                 if (taxa.getPercentual() != null && taxa.getPercentual().compareTo(BigDecimal.ZERO) > 0) {
                     BigDecimal valorPercentual = valorBase.multiply(taxa.getPercentual());
                     totalTaxas = totalTaxas.add(valorPercentual);
                 }
 
-                // Calcula valor fixo se existir e for positivo (sem else throw obrigatório)
+                // valor fixo
                 if (taxa.getValorFixo() != null && taxa.getValorFixo().compareTo(BigDecimal.ZERO) > 0) {
                     totalTaxas = totalTaxas.add(taxa.getValorFixo());
                 }
             }
         }
-        // Atualiza o valor final
+
+        // atualizar o valor final
         pagamento.setValorPago(valorBase.add(totalTaxas));
     }
 
