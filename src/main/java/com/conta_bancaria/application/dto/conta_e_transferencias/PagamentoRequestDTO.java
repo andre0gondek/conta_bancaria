@@ -5,6 +5,7 @@ import com.conta_bancaria.domain.entity.Pagamento;
 import com.conta_bancaria.domain.enums.StatusPagamento;
 import com.conta_bancaria.domain.entity.Taxa;
 import com.conta_bancaria.domain.enums.TipoPagamento;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
 
@@ -17,27 +18,20 @@ public record PagamentoRequestDTO(
         String boleto,
         BigDecimal valorPago,
         StatusPagamento status,
+        @NotNull(message = "O tipo de pagamento é obrigatório (PIX, BOLETO, ETC)")
         TipoPagamento tipoPagamento,
-        List<TaxaDTO.TaxaRequestDTO> taxas,
         String codigoAutenticacao
 ) {
     public Pagamento toEntity(Conta conta) {
-        List<Taxa> taxasEntidade = new ArrayList<>();
-        if (this.taxas != null) {
-            taxasEntidade = this.taxas.stream().map(t -> Taxa.builder()
-                    .descricao(t.descricao())
-                    .percentual(t.percentual())
-                    .valorFixo(t.valorFixo())
-                    .build()).toList();
-        }
+
         return Pagamento.builder()
                 .conta(conta)
                 .boleto(this.boleto)
                 .valorPago(this.valorPago)
                 .dataPagamento(LocalDateTime.now())
-                .tipoPagamento(this.tipoPagamento)
                 .status(StatusPagamento.PENDENTE)
-                .taxas(taxasEntidade)
+                .tipoPagamento(this.tipoPagamento)
+                .taxas(new ArrayList<>())
                 .build();
     }
 }

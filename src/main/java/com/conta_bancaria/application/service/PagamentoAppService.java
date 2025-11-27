@@ -5,9 +5,11 @@ import com.conta_bancaria.application.dto.conta_e_transferencias.PagamentoRespon
 import com.conta_bancaria.domain.PagamentoDomainService;
 import com.conta_bancaria.domain.entity.Conta;
 import com.conta_bancaria.domain.entity.Pagamento;
+import com.conta_bancaria.domain.entity.Taxa;
 import com.conta_bancaria.domain.exception.EntidadeNaoEncontradaException;
 import com.conta_bancaria.domain.repository.ContaRepository;
 import com.conta_bancaria.domain.repository.PagamentoRepository;
+import com.conta_bancaria.domain.repository.TaxasRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,7 @@ public class PagamentoAppService {
     private final ContaRepository contaRepository;
     private final CodigoAutenticacaoService codigoAutenticacaoService;
     private final IoTService iotService;
+    private final TaxasRepository taxasRepository;
 
     private Pagamento buscarPagamentoPorBoleto(String boleto) {
         var pagamento = repository.findByBoleto(boleto).orElseThrow(
@@ -56,9 +59,11 @@ public class PagamentoAppService {
         // para validar o codigo do IoT
         codigoAutenticacaoService.validarCodigo(dto.codigoAutenticacao(), conta.getCliente().getCpf());
 
+        List<Taxa> taxasAplicaveis = taxasRepository.findByTipoPagamento(dto.tipoPagamento());
+
         Pagamento pagamento = dto.toEntity(conta);
         PagamentoDomainService.validarPagamento(pagamento);
-        PagamentoDomainService.calcularTaxa(pagamento);
+        PagamentoDomainService.calcularTaxa(pagamento, taxasAplicaveis);
         PagamentoDomainService.definirStatus(pagamento, true); // se chegou até aqui, IoT validado
 
         Pagamento pagamentoSalvo = repository.save(pagamento);

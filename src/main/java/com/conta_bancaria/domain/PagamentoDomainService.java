@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -41,32 +42,26 @@ public class PagamentoDomainService {
 
     }
 
-    public static void calcularTaxa(Pagamento pagamento) {
+    public static void calcularTaxa(Pagamento pagamento, List<Taxa> taxasDoBanco) {
+        // Adiciona as taxas encontradas no banco à entidade Pagamento
+        // (Lembrando que o Pagamento vai criar cópias dessas taxas para seu histórico)
+        if (taxasDoBanco != null && !taxasDoBanco.isEmpty()) {
+            pagamento.setTaxas(new ArrayList<>(taxasDoBanco));
+        }
 
-        // obter as taxas do enum para adicionar na entidade
-        List<Taxa> taxasDoTipo = pagamento.getTipoPagamento().getTaxas();
-        pagamento.setTaxas(taxasDoTipo); // Salva as taxas do Enum na entidade Pagamento
-
-        // calcular o valor final
         BigDecimal valorBase = pagamento.getValorPago();
         BigDecimal totalTaxas = BigDecimal.ZERO;
 
         if (pagamento.getTaxas() != null) {
             for (Taxa taxa : pagamento.getTaxas()) {
-                // percentual da taxa
                 if (taxa.getPercentual() != null && taxa.getPercentual().compareTo(BigDecimal.ZERO) > 0) {
-                    BigDecimal valorPercentual = valorBase.multiply(taxa.getPercentual());
-                    totalTaxas = totalTaxas.add(valorPercentual);
+                    totalTaxas = totalTaxas.add(valorBase.multiply(taxa.getPercentual()));
                 }
-
-                // valor fixo
                 if (taxa.getValorFixo() != null && taxa.getValorFixo().compareTo(BigDecimal.ZERO) > 0) {
                     totalTaxas = totalTaxas.add(taxa.getValorFixo());
                 }
             }
         }
-
-        // atualizar o valor final
         pagamento.setValorPago(valorBase.add(totalTaxas));
     }
 

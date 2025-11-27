@@ -1,9 +1,7 @@
 package com.conta_bancaria.domain.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.conta_bancaria.domain.enums.TipoPagamento;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,4 +25,8 @@ public class Taxa {
     private BigDecimal percentual;
 
     private BigDecimal valorFixo;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private TipoPagamento tipoPagamento;
 }
