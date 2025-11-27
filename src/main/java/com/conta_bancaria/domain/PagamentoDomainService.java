@@ -42,18 +42,19 @@ public class PagamentoDomainService {
 
         if (pagamento.getTaxas() != null) {
             for (Taxa taxa : pagamento.getTaxas()) {
-
-                if (taxa.getPercentual() != null && taxa.getPercentual().compareTo(BigDecimal.ZERO) >= 0) {
+                // Calcula percentual se existir e for positivo
+                if (taxa.getPercentual() != null && taxa.getPercentual().compareTo(BigDecimal.ZERO) > 0) {
                     BigDecimal valorPercentual = valorBase.multiply(taxa.getPercentual());
                     totalTaxas = totalTaxas.add(valorPercentual);
                 }
 
-                if (taxa.getValorFixo() != null && taxa.getValorFixo().compareTo(BigDecimal.ZERO) >= 0) {
+                // Calcula valor fixo se existir e for positivo (sem else throw obrigatório)
+                if (taxa.getValorFixo() != null && taxa.getValorFixo().compareTo(BigDecimal.ZERO) > 0) {
                     totalTaxas = totalTaxas.add(taxa.getValorFixo());
                 }
             }
         }
-
+        // Atualiza o valor final
         pagamento.setValorPago(valorBase.add(totalTaxas));
     }
 

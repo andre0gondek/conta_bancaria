@@ -31,6 +31,7 @@ public class PagamentoAppService {
         );
         return pagamento;
     }
+ /* código possívelmente inutilizado
 
     @PreAuthorize("hasRole('GERENTE')")
     public PagamentoResponseDTO processarPagamento(PagamentoRequestDTO dto, boolean respostaValidaMQTT) {
@@ -49,7 +50,7 @@ public class PagamentoAppService {
 
         return PagamentoResponseDTO.fromEntity(pagamentoSalvo);
     }
-
+*/
     @PreAuthorize("hasAnyRole('GERENTE')")
     public PagamentoResponseDTO verPagamento(String boleto){
         var pagamento = buscarPagamentoPorBoleto(boleto);

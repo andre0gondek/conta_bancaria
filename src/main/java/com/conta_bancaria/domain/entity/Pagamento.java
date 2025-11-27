@@ -39,7 +39,7 @@ public class Pagamento {
     @Column(nullable = false)
     private StatusPagamento status;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "pagamento_taxa",
             joinColumns = @JoinColumn(name = "pagamento_id"),
