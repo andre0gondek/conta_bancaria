@@ -123,3 +123,6 @@ src/main/java/com/conta_bancaria
 │   └── PagamentoDomainService.java # Lógica pura de cálculo e regras financeiras
 ├── infrastructure       # Configurações (Security, Swagger, Beans)
 └── ui_interface         # Camada de Entrada (Controllers REST e Handlers de Erro)
+
+📝 Autor
+Desenvolvido por André Mendes
